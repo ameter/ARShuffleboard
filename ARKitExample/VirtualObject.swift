@@ -56,9 +56,11 @@ class VirtualObject: SCNReferenceNode, ReactsToScale {
     }
   
   func addPhysicsEffect() {
-    self.physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
-    self.physicsBody?.categoryBitMask = CollisionType.object.rawValue
-    self.physicsBody?.contactTestBitMask = CollisionType.object.rawValue | CollisionType.plane.rawValue
+    name = "object"
+    physicsBody = SCNPhysicsBody(type: .dynamic, shape: nil)
+    physicsBody?.mass = 0.75
+    physicsBody?.categoryBitMask = CollisionType.object.rawValue
+    physicsBody?.contactTestBitMask = CollisionType.object.rawValue | CollisionType.plane.rawValue
   }
 }
 

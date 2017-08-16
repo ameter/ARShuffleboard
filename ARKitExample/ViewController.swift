@@ -65,6 +65,7 @@ class ViewController: UIViewController {
         Setting.registerDefaults()
 		setupUIControls()
         setupScene()
+      settingsButton.isHidden = true
     }
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -103,6 +104,7 @@ class ViewController: UIViewController {
 		// sceneView.showsStatistics = true
 		
 		sceneView.scene.enableEnvironmentMapWithIntensity(25, queue: serialQueue)
+    sceneView.scene.physicsWorld.contactDelegate = self
 		
 		setupFocusSquare()
 		
@@ -243,4 +245,24 @@ class ViewController: UIViewController {
 		}
 	}
     
+}
+
+extension ViewController: SCNPhysicsContactDelegate {
+  
+//  func physicsWorld(_ world: SCNPhysicsWorld, didBegin contact: SCNPhysicsContact) {
+//    print("collision happens: \(contact.nodeA.name) and \(contact.nodeB.name)")
+//    if contact.nodeA.name == "object" && contact.nodeB.name == "object" {
+//      contact.nodeA.createExplosion(in: sceneView.scene)
+//      contact.nodeB.createExplosion(in: sceneView.scene)
+//    }
+//  }
+//
+//  func physicsWorld(_ world: SCNPhysicsWorld, didUpdate contact: SCNPhysicsContact) {
+//
+//  }
+//
+//  func physicsWorld(_ world: SCNPhysicsWorld, didEnd contact: SCNPhysicsContact) {
+//
+//  }
+  
 }

@@ -22,7 +22,21 @@ extension ViewController: UIPopoverPresentationControllerDelegate {
         if isLoadingObject { return }
         
         textManager.cancelScheduledMessage(forType: .contentPlacement)
-        performSegue(withIdentifier: SegueIdentifier.showObjects.rawValue, sender: button)
+      guard let cameraTransform = session.currentFrame?.camera.transform else {
+        return
+      }
+      
+      let definition = VirtualObjectManager.availableObjects.first!
+      let object = VirtualObject(definition: definition)
+      let position = focusSquare?.lastPosition ?? float3(0)
+      virtualObjectManager.loadVirtualObject(object, to: position, cameraTransform: cameraTransform)
+      if object.parent == nil {
+        serialQueue.async {
+          self.sceneView.scene.rootNode.addChildNode(object)
+        }
+      }
+
+//        performSegue(withIdentifier: SegueIdentifier.showObjects.rawValue, sender: button)
     }
     
     /// - Tag: restartExperience

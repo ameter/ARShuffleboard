@@ -50,11 +50,13 @@ class Plane: SCNNode {
   
   fileprivate func setup() {
     let material = SCNMaterial()
-    material.diffuse.contents = #imageLiteral(resourceName: "overlay_grid")
+    material.diffuse.contents = #imageLiteral(resourceName: "shuff")
     self.planeGeometry.materials = [material]
     geometry = self.planeGeometry
     physicsBody = SCNPhysicsBody(type: .static, shape: SCNPhysicsShape(geometry: self.planeGeometry, options: nil))
+    physicsBody?.friction = 0.5
     physicsBody?.categoryBitMask = CollisionType.plane.rawValue
+    
 //    name = Plane.nodeName
     physicsBody?.contactTestBitMask = CollisionType.plane.rawValue | CollisionType.object.rawValue
     physicsBody?.isAffectedByGravity = false

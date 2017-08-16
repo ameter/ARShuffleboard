@@ -79,8 +79,12 @@ class VirtualObjectManager {
         DispatchQueue.global(qos: .userInitiated).async {
             object.load()
             object.addPhysicsEffect()
+          object.enumerateChildNodes({ (node, _) in
+            if node.name != "shadowPlane" {
+              node.geometry?.firstMaterial?.diffuse.contents = self.virtualObjects.count % 2 == 0 ? UIColor.red : UIColor.blue
+            }
+          })
           
-            
             // Immediately place the object in 3D space.
             self.updateQueue.async {
                 self.setNewVirtualObjectPosition(object, to: position, cameraTransform: cameraTransform)
@@ -220,14 +224,16 @@ class VirtualObjectManager {
 		if filterPosition, let averageDistance = object.recentVirtualObjectDistances.average {
 			let averagedDistancePos = cameraWorldPos + simd_normalize(cameraToPosition) * averageDistance
 //      object.simdPosition = averagedDistancePos
-      let diff = averagedDistancePos - object.simdPosition
-      let planeVector = float3(x: diff.x, y: 0, z: diff.z)
+//      let diff = averagedDistancePos - object.simdPosition
+      let diff = pos - object.simdPosition
+      let planeVector = float3(x: diff.x * 0.5, y: 0, z: diff.z * 0.5)
       
       object.physicsBody?.applyForce(SCNVector3(planeVector), asImpulse: true)
 		} else {
 //      object.simdPosition = cameraWorldPos + cameraToPosition
-      let diff = cameraWorldPos + cameraToPosition - object.simdPosition
-      let planeVector = float3(x: diff.x, y: 0, z: diff.z)
+//      let diff = cameraWorldPos + cameraToPosition - object.simdPosition
+      let diff = pos - object.simdPosition
+      let planeVector = float3(x: diff.x * 0.5, y: 0, z: diff.z * 0.5)
       object.physicsBody?.applyForce(SCNVector3(planeVector), asImpulse: true)
 		}
 	}

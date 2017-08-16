@@ -43,3 +43,33 @@ extension SCNScene {
 		}
 	}
 }
+
+extension SCNNode {
+  func createExplosion(in scene: SCNScene) {
+    guard let explosion = SCNParticleSystem(named: "Explode.scnp", inDirectory: nil) else {
+      return
+    }
+    
+    var particleGeometry: SCNGeometry?
+    if let geo = geometry {
+      particleGeometry = geo
+    } else {
+      var existingGeometries = [SCNGeometry]()
+      enumerateChildNodes({ (node, _) in
+        if let geo = node.geometry {
+          existingGeometries.append(geo)
+        }
+      })
+      particleGeometry = existingGeometries.first
+    }
+    
+    explosion.emitterShape = particleGeometry ?? SCNSphere(radius: CGFloat(boundingSphere.radius))
+    explosion.birthLocation = .surface
+    let rotation = presentation.rotation
+    let position = presentation.position
+    let rotationMatrix = SCNMatrix4MakeRotation(rotation.w, rotation.x, rotation.y, rotation.z)
+    let translationMatrix = SCNMatrix4MakeTranslation(position.x, position.y, position.z)
+    let transformMatrix = SCNMatrix4Mult(rotationMatrix, translationMatrix)
+    scene.addParticleSystem(explosion, transform: transformMatrix)
+  }
+}

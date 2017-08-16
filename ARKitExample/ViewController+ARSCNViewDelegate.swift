@@ -19,13 +19,35 @@ extension ViewController: ARSCNViewDelegate {
         } else {
             sceneView.scene.enableEnvironmentMapWithIntensity(40, queue: serialQueue)
         }
+//      cleanScene(sceneView.scene)
+      
     }
+  
+  private func cleanScene(_ scene: SCNScene) {
+    
+//    guard let firstPlane = planes.values.first else {
+//      return
+//    }
+    
+    scene.rootNode.enumerateChildNodes { (node, _) in
+//      if let virtualObject = node as? VirtualObject, let index = virtualObjectManager.virtualObjects.index(of: virtualObject), virtualObject.position.y < -1 {
+//        print("node position: \(node.worldPosition), node name: \(node.name)")
+//        virtualObjectManager.virtualObjects.remove(at: index)
+//        virtualObject.unload()
+//        node.removeFromParentNode()
+        
+//      }
+    }
+    
+  }
     
     func renderer(_ renderer: SCNSceneRenderer, didAdd node: SCNNode, for anchor: ARAnchor) {
         guard let planeAnchor = anchor as? ARPlaneAnchor else { return }
         serialQueue.async {
+          if self.planes.isEmpty  {
             self.addPlane(node: node, anchor: planeAnchor)
             self.virtualObjectManager.checkIfObjectShouldMoveOntoPlane(anchor: planeAnchor, planeAnchorNode: node)
+          }
         }
     }
     

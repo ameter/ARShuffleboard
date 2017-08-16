@@ -1,10 +1,4 @@
 [
- {
- "modelName": "hockey",
- "displayName": "hockey",
- "particleScaleInfo": {}
- },
-
     {
         "modelName": "cup",
         "displayName": "Cup",
