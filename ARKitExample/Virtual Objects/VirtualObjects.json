@@ -9,6 +9,16 @@
         "modelName": "cup",
         "displayName": "Cup",
         "particleScaleInfo": { }
-    }
+    },
+ {
+ "modelName": "bluePuck",
+ "displayName": "bluePuck",
+ "particleScaleInfo": { }
+ },
+ {
+ "modelName": "redPuck",
+ "displayName": "redPuck",
+ "particleScaleInfo": { }
+ }
 ]
  
